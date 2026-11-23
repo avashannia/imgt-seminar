@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111312">
+<title>IMGT211: SQL Functions Seminar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ 1. HERO + COUNTDOWN ============ -->
+<header class="hero wrap">
+  <p class="chips"><span class="chip">IMGT211</span><span class="chip">For BSIT2-Y1-3</span></p>
+  <h1>IMGT211: <span>SQL Functions</span> Seminar</h1>
+
+  <!-- Countdown styled like a SQL result set -->
+  <div class="result" role="timer" aria-label="Time until the seminar starts">
+    <p class="result-cap">starts_in</p>
+    <div class="result-grid">
+      <span class="col">hours</span><span class="col">minutes</span><span class="col">seconds</span>
+      <b id="cdH">00</b><b id="cdM">00</b><b id="cdS">00</b>
+    </div>
+  </div>
+  <p id="cdStatus" class="muted">Set the start time to begin the countdown.</p>
+
+  <form id="timerForm" class="timer-form">
+    <label>Seminar start
+      <input type="datetime-local" id="startInput" required>
+    </label>
+    <button class="btn ghost" type="submit">Start countdown</button>
+    <button class="btn ghost" type="button" id="clearTimer">Clear</button>
+  </form>
+
+  <button class="btn primary big" id="openModal" type="button">Attendance, Q&amp;A &amp; Claim Certificate</button>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ 2. OBJECTIVES & AGENDA ============ -->
+  <section id="objectives">
+    <h2>What you will learn</h2>
+    <div class="grid two">
+      <article class="card">
+        <h3>SQL Functions and their types</h3>
+        <p>Understand what SQL functions are, and how Single-Row Functions differ from Multiple-Row Functions.</p>
+      </article>
+      <article class="card">
+        <h3>String and case conversion</h3>
+        <p>Change text casing with <code>LOWER</code> and <code>UPPER</code>.</p>
+      </article>
+      <article class="card">
+        <h3>Character manipulation</h3>
+        <p>Measure, trim, slice, search, and rebuild text with <code>LEN</code>, <code>LTRIM</code>, <code>RTRIM</code>, <code>LEFT</code>, <code>RIGHT</code>, <code>SUBSTRING</code>, <code>CHARINDEX</code>, <code>REPLACE</code>, <code>REPLICATE</code>, and <code>SPACE</code>.</p>
+      </article>
+      <article class="card">
+        <h3>Mathematical functions</h3>
+        <p>Work with numbers using <code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, and <code>ROUND</code>.</p>
+      </article>
+    </div>
+
+    <h2>Agenda</h2>
+    <ol class="agenda card">
+      <li>Opening</li>
+      <li>SQL Functions overview, types, single- vs. multiple-row</li>
+      <li>Quick visual summary and string functions overview</li>
+      <li>Case conversion and query example</li>
+      <li>Mini practice</li>
+      <li>LEN, trimming, and directional slicing</li>
+      <li>SUBSTRING and CHARINDEX</li>
+      <li>Mid-seminar checkpoint</li>
+      <li>REPLACE and REPLICATE</li>
+      <li>SPACE and combined string manipulation</li>
+      <li>Mathematical functions</li>
+      <li>Q&amp;A, wrap-up, and photo op</li>
+    </ol>
+  </section>
+
+  <!-- ============ 3. TEAM ============ -->
+  <!-- Edit the text inside each <span class="name"> to change names. -->
+  <section id="team">
+    <h2>Meet the team</h2>
+    <div class="grid team">
+      <article class="card"><h3>Emcee / Host 1</h3><p class="name">Emcee Name 1</p><p>Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+      <article class="card"><h3>Emcee / Host 2</h3><p class="name">Emcee Name 2</p><p>Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+      <article class="card"><h3>Speaker 1</h3><p class="name">Speaker Name 1</p><p>SQL Functions overview, types, single- vs. multiple-row</p></article>
+      <article class="card"><h3>Speaker 2</h3><p class="name">Speaker Name 2</p><p>Quick visual summary and string functions overview</p></article>
+      <article class="card"><h3>Speaker 3</h3><p class="name">Speaker Name 3</p><p>Case conversion (<code>LOWER</code> &amp; <code>UPPER</code>) and query example</p></article>
+      <article class="card"><h3>Speaker 4</h3><p class="name">Speaker Name 4</p><p><code>LEN</code>, trimming (<code>LTRIM</code>, <code>RTRIM</code>) and directional slicing (<code>LEFT</code>, <code>RIGHT</code>)</p></article>
+      <article class="card"><h3>Speaker 5</h3><p class="name">Speaker Name 5</p><p><code>SUBSTRING</code> and <code>CHARINDEX</code></p></article>
+      <article class="card"><h3>Speaker 6</h3><p class="name">Speaker Name 6</p><p><code>REPLACE</code> and <code>REPLICATE</code></p></article>
+      <article class="card"><h3>Speaker 7</h3><p class="name">Speaker Name 7</p><p><code>SPACE</code> and combined string manipulation</p></article>
+      <article class="card"><h3>Speaker 8</h3><p class="name">Speaker Name 8</p><p>Intro to mathematical functions (<code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>ROUND</code>)</p></article>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p class="muted">IMGT211 &middot; BSIT2-Y1-3 <button class="link" id="openHost" type="button">Host view</button></p>
+</footer>
+
+<!-- ============ ALL-IN-ONE MODAL ============ -->
+<dialog id="modal" aria-labelledby="modalTitle">
+  <button class="close" id="closeModal" type="button" aria-label="Close">&times;</button>
+
+  <!-- View A: attendance + question form -->
+  <section class="view" id="viewForm">
+    <h2 id="modalTitle">Attendance &amp; Q&amp;A</h2>
+    <form id="attForm">
+      <label>Full name (printed on your certificate)
+        <input id="fName" required autocomplete="name" placeholder="Juan Dela Cruz">
+      </label>
+      <label>Section / Student ID
+        <input id="fSection" autocomplete="off" placeholder="BSIT2-Y1-3">
+      </label>
+      <label>Question for the speakers (optional)
+        <textarea id="fQuestion" rows="3" placeholder="Shy? Ask here and the emcees will read it out."></textarea>
+      </label>
+      <button class="btn primary" type="submit">Submit attendance</button>
+      <p class="note">Please don't use Incognito/Private mode. Your progress and certificate are saved in this browser and would be lost.</p>
+    </form>
+  </section>
+
+  <!-- View B: recorded, certificate still locked -->
+  <section class="view" id="viewLocked" hidden>
+    <h2>Attendance recorded</h2>
+    <p>Thank you, <strong id="lockName"></strong>. Your attendance is saved under your name.</p>
+    <p class="muted">Your certificate unlocks in</p>
+    <p class="clock" id="lockClock" aria-live="off">01:00:00</p>
+    <p class="note">Keep this page or come back on the same browser. The countdown continues even when the page is closed.</p>
+    <button class="link" id="resetRecord" type="button">Not you? Clear this device</button>
+  </section>
+
+  <!-- View C: certificate unlocked -->
+  <section class="view" id="viewCert" hidden>
+    <h2>Certificate of Participation</h2>
+    <canvas id="certCanvas" aria-label="Certificate of Participation"></canvas>
+    <button class="btn primary" id="downloadCert" type="button">Download Certificate (PNG)</button>
+  </section>
+
+  <!-- View D: host view of submissions -->
+  <section class="view" id="viewHost" hidden>
+    <h2>Host view</h2>
+    <p class="note">Shows submissions saved in <em>this browser only</em>. To collect everyone's answers, connect the Google Apps Script in <code>script.js</code>.</p>
+    <ul id="hostList" class="host-list"></ul>
+    <button class="btn ghost" id="exportCsv" type="button">Download CSV</button>
+  </section>
+</dialog>
+
+<script src="script.js"></script>
+</body>
+</html>
