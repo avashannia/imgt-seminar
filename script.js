@@ -4,7 +4,7 @@
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
 // Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuhmCHN59tEJvttePhmPb2Filh8RhwfZ3kLCcgrTh2vdiUm0YzYX67PwrcWZwsmbnc/exec";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
@@ -34,16 +34,50 @@ const msLeft = () => startedAt + UNLOCK_DELAY_MS - Date.now();
 /* ---------- Hero gate: Yes works, No runs away ---------- */
 const no = $("#noBtn"),
   labels = ["No", "Nope", "Try Yes", "Nice try", "Just say yes"];
-let dodges = 0;
+let dodges = 0,
+  nx = 0,
+  ny = 0;
+// Move No to a random spot on screen (never on top of Yes). Works on phones: tracks its own offset.
+function moveNo() {
+  const r = no.getBoundingClientRect(),
+    y = $("#yesBtn").getBoundingClientRect();
+  const bx = r.left - nx,
+    by = r.top - ny; // resting position without the offset
+  for (let i = 0; i < 8; i++) {
+    const tx = 12 + Math.random() * Math.max(0, innerWidth - r.width - 24);
+    const ty = Math.max(
+      12,
+      Math.min(innerHeight - r.height - 12, by + (Math.random() * 2 - 1) * 120),
+    );
+    const hit =
+      tx < y.right + 8 &&
+      tx + r.width > y.left - 8 &&
+      ty < y.bottom + 8 &&
+      ty + r.height > y.top - 8;
+    if (!hit || i === 7) {
+      nx = tx - bx;
+      ny = ty - by;
+      break;
+    }
+  }
+  no.style.transform = `translate(${nx}px, ${ny}px)`;
+}
 function dodge(e) {
   e.preventDefault();
-  const r = Math.min(150, innerWidth / 3);
-  no.style.transform = `translate(${(Math.random() * 2 - 1) * r}px, ${(Math.random() * 2 - 1) * 70}px)`;
   no.textContent = labels[++dodges % labels.length];
+  moveNo();
   if (e.type === "focus") no.blur();
 }
 ["pointerenter", "pointerdown", "touchstart", "focus", "click"].forEach((ev) =>
   no.addEventListener(ev, dodge),
+);
+// Even if nobody touches it, No keeps wandering until Yes is clicked.
+const roam = setInterval(
+  () =>
+    document.body.classList.contains("started")
+      ? clearInterval(roam)
+      : moveNo(),
+  1400,
 );
 
 function begin(animate) {
@@ -84,7 +118,11 @@ const show = (id) =>
   document.querySelectorAll(".view").forEach((v) => (v.hidden = v.id !== id));
 function renderModal() {
   const rec = store.get(K.att);
-  if (!rec) return show("viewForm");
+  if (!rec) {
+    $("#qBox").hidden = true;
+    return show("viewForm");
+  }
+  $("#qBox").hidden = false;
   if (msLeft() <= 0) {
     show("viewCert");
     drawCertificate($("#certCanvas"), rec);
@@ -120,7 +158,7 @@ $("#attForm").addEventListener("submit", (e) => {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(rec),
+      body: JSON.stringify({ type: "attendance", ...rec }),
     }).catch(() => {});
   }
   e.target.reset();
@@ -273,3 +311,28 @@ document.querySelectorAll(".person").forEach((c) =>
     c.style.setProperty("--my", e.clientY - r.top + "px");
   }),
 );
+
+/* ---------- Anonymous questions (separate "Questions" tab in the sheet) ---------- */
+$("#qForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const q = $("#qText").value.trim();
+  if (!q) return;
+  if (!APPS_SCRIPT_URL) {
+    $("#qStatus").textContent =
+      "Not connected yet: add APPS_SCRIPT_URL in script.js.";
+    return;
+  }
+  // Only the question text and a timestamp are sent. No name, section, or saved attendance data.
+  fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({
+      type: "question",
+      question: q,
+      submittedAt: Date.now(),
+    }),
+  }).catch(() => {});
+  $("#qText").value = "";
+  $("#qStatus").textContent = "Sent anonymously. You can send another.";
+});
