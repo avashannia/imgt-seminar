@@ -4,7 +4,7 @@
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
 // Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "https://script.google.com/macros/library/d/1cNhp5QRw28FBYS65hOkI9breXVsG-Tr4Fm4Z6GNJLiK4GliRcFgWsSiv/1";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7aTc60YFprqq4ax7Mv7dPPsHjBRUxOs-96PCCeWFz39UQMWKIx7g8OoiHFFWTatpp/exec";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
@@ -50,12 +50,14 @@ function begin(animate) {
   document.body.classList.add("started");
   const swap = () => {
     $("#gate").hidden = true;
-    $("#live").hidden = false;
+    $("#in").hidden = false;
     tick();
+    observe();
   };
   if (animate) {
     $("#gate").classList.add("out");
     setTimeout(swap, 450);
+    setTimeout(() => $("#agenda").scrollIntoView({ behavior: "smooth" }), 1500); // agenda + speakers first
   } else swap();
 }
 $("#yesBtn").addEventListener("click", () => {
@@ -70,8 +72,7 @@ function tick() {
   if (!startedAt) return;
   const left = msLeft();
   $("#clock").textContent = clock(left);
-  $("#clockNote").textContent =
-    left > 0 ? "Seminar time remaining" : "Time's up. Claim your certificate.";
+  $("#clockNote").textContent = left > 0 ? "Time left" : "Time's up";
   if ($("#modal").open && !$("#viewLocked").hidden)
     left > 0 ? ($("#lockClock").textContent = clock(left)) : renderModal();
 }
@@ -139,10 +140,10 @@ function drawCertificate(c, rec) {
   };
   x.fillStyle = "#F5F2EB";
   x.fillRect(0, 0, W, H);
-  x.strokeStyle = "#1E3A2F";
+  x.strokeStyle = "#5B21B6";
   x.lineWidth = 18;
   x.strokeRect(40, 40, W - 80, H - 80);
-  x.strokeStyle = "#4ADE80";
+  x.strokeStyle = "#FF7A1A";
   x.lineWidth = 4;
   x.strokeRect(75, 75, W - 150, H - 150);
   x.fillStyle = "#111312";
@@ -151,33 +152,33 @@ function drawCertificate(c, rec) {
     "IMGT211",
     150,
     "600 44px ui-monospace, Menlo, Consolas, monospace",
-    "#4ADE80",
+    "#FF7A1A",
   );
   line(
     "SQL Functions Seminar",
     215,
-    "700 54px -apple-system, Helvetica, Arial, sans-serif",
+    "700 54px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
     "#F5F2EB",
   );
   line(
     "Certificate of Participation",
     380,
-    "700 84px -apple-system, Helvetica, Arial, sans-serif",
-    "#1E3A2F",
+    "700 84px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
+    "#5B21B6",
   );
   line(
     "This certifies that",
     470,
-    "36px -apple-system, Helvetica, Arial, sans-serif",
+    "36px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
     "#111312",
   );
   let size = 120; // shrink long names to fit
   do {
-    x.font = `700 ${size}px -apple-system, Helvetica, Arial, sans-serif`;
+    x.font = `700 ${size}px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif`;
     size -= 4;
   } while (x.measureText(rec.fullName).width > W - 360 && size > 40);
   line(rec.fullName, 620, x.font, "#111312");
-  x.strokeStyle = "#1E3A2F";
+  x.strokeStyle = "#5B21B6";
   x.lineWidth = 3;
   x.beginPath();
   x.moveTo(300, 655);
@@ -186,20 +187,20 @@ function drawCertificate(c, rec) {
   line(
     "has attended and participated in the",
     730,
-    "36px -apple-system, Helvetica, Arial, sans-serif",
+    "36px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
     "#111312",
   );
   line(
     "IMGT211: SQL Functions Seminar",
     800,
-    "700 52px -apple-system, Helvetica, Arial, sans-serif",
-    "#1E3A2F",
+    "700 52px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
+    "#5B21B6",
   );
   if (rec.section)
     line(
       "Section / ID: " + rec.section,
       860,
-      "32px -apple-system, Helvetica, Arial, sans-serif",
+      "32px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
       "#111312",
     );
   line(
@@ -207,7 +208,7 @@ function drawCertificate(c, rec) {
       dateStyle: "long",
     }),
     925,
-    "32px -apple-system, Helvetica, Arial, sans-serif",
+    "32px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
     "#111312",
   );
   x.strokeStyle = "#111312";
@@ -220,7 +221,7 @@ function drawCertificate(c, rec) {
     x.moveTo(a, 1020);
     x.lineTo(b, 1020);
     x.stroke();
-    x.font = "28px -apple-system, Helvetica, Arial, sans-serif";
+    x.font = "28px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif";
     x.fillStyle = "#111312";
     x.fillText(t, (a + b) / 2, 1058);
   });
@@ -236,3 +237,39 @@ $("#downloadCert").addEventListener("click", () => {
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   });
 });
+
+/* ---------- Scroll + pointer effects ---------- */
+// Fade each .reveal element up as it enters the screen (staggered inside the team grid).
+let io;
+function observe() {
+  io =
+    io ||
+    new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        }),
+      { threshold: 0.15 },
+    );
+  document
+    .querySelectorAll(".team .reveal")
+    .forEach((el, i) => el.style.setProperty("--d", (i % 3) * 0.12 + "s"));
+  document.querySelectorAll(".reveal:not(.in)").forEach((el) => io.observe(el));
+}
+// Scroll position drives the silver ring parallax (CSS reads --sy).
+addEventListener(
+  "scroll",
+  () => document.documentElement.style.setProperty("--sy", scrollY),
+  { passive: true },
+);
+// Light follows the pointer across photo cards.
+document.querySelectorAll(".person").forEach((c) =>
+  c.addEventListener("pointermove", (e) => {
+    const r = c.querySelector(".ph").getBoundingClientRect();
+    c.style.setProperty("--mx", e.clientX - r.left + "px");
+    c.style.setProperty("--my", e.clientY - r.top + "px");
+  }),
+);
