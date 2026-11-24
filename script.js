@@ -4,7 +4,7 @@
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
 // Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7aTc60YFprqq4ax7Mv7dPPsHjBRUxOs-96PCCeWFz39UQMWKIx7g8OoiHFFWTatpp/exec";
+const APPS_SCRIPT_URL = "";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
@@ -218,12 +218,12 @@ function drawCertificate(c, rec) {
     [W - 640, W - 260, "Course Instructor"],
   ].forEach(([a, b, t]) => {
     x.beginPath();
-    x.moveTo(a, 1020);
-    x.lineTo(b, 1020);
+    x.moveTo(a, 965);
+    x.lineTo(b, 965);
     x.stroke();
     x.font = "28px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif";
     x.fillStyle = "#111312";
-    x.fillText(t, (a + b) / 2, 1058);
+    x.fillText(t, (a + b) / 2, 1003);
   });
 }
 $("#downloadCert").addEventListener("click", () => {
@@ -240,7 +240,7 @@ $("#downloadCert").addEventListener("click", () => {
 
 /* ---------- Scroll + pointer effects ---------- */
 // Fade each .reveal element up as it enters the screen (staggered inside the team grid).
-let io;
+var io; // var (not let) so begin() can run observe() on page load
 function observe() {
   io =
     io ||
