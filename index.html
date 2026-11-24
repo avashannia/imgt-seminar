@@ -5,92 +5,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111312">
 <title>IMGT211: SQL Functions Seminar</title>
-<link rel="stylesheet" href="styles.css">
+<!-- Inter Tight is a free Google Font; system fonts are the fallback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="glow" aria-hidden="true"><i></i><i></i></div>
-
-<!-- HERO: "Ready?" gate. Only Yes works; No dodges. Yes starts the 1-hour timer. -->
-<header class="hero wrap">
-  <p class="chips"><span>IMGT211</span><span>For BSIT2-Y1-3</span></p>
-
-  <div id="gate">
-    <h1>Ready for<br>SQL Functions?</h1>
-    <p class="sub">IMGT211 seminar. Say yes to begin.</p>
-    <div class="choices">
-      <button class="btn yes" id="yesBtn" type="button">Yes</button>
-      <button class="btn no" id="noBtn" type="button" aria-disabled="true">No</button>
+  <div class="bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><div class="ring"><i></i></div></div>
+  <!-- HERO: only Yes works. No runs away. Yes starts the 1-hour timer. -->
+  <header class="hero wrap">
+    <p class="chips"><span>IMGT211</span><span>For BSIT2-Y1-3</span></p>
+    <div id="gate">
+      <h1>Ready for<br>SQL Functions?</h1>
+      <p class="sub">IMGT211 seminar. Say yes to begin.</p>
+      <div class="choices">
+        <button class="btn go" id="yesBtn" type="button">Yes</button>
+        <button class="btn no" id="noBtn" type="button" aria-disabled="true">No</button>
+      </div>
     </div>
+    <div id="in" hidden>
+      <h1>You're in.</h1>
+      <p class="sub">Scroll for the agenda and your speakers.</p>
+    </div>
+  </header>
+
+  <main class="wrap after">
+    <section id="agenda">
+      <h2 class="reveal">Agenda</h2>
+      <ol class="agenda">
+        <li class="reveal"><b>Opening and overview</b><span>Single-row vs. multiple-row functions</span></li>
+        <li class="reveal"><b>Case conversion</b><span><code>LOWER</code> <code>UPPER</code></span></li>
+        <li class="reveal"><b>Character manipulation</b><span><code>LEN</code> <code>LTRIM</code> <code>RTRIM</code> <code>LEFT</code> <code>RIGHT</code> <code>SUBSTRING</code> <code>CHARINDEX</code> <code>REPLACE</code> <code>REPLICATE</code> <code>SPACE</code></span></li>
+        <li class="reveal"><b>Mathematical functions</b><span><code>ABS</code> <code>POWER</code> <code>CEILING</code> <code>FLOOR</code> <code>ROUND</code></span></li>
+        <li class="reveal"><b>Q&amp;A, wrap-up and photo op</b><span>Send questions through the attendance form</span></li>
+      </ol>
+    </section>
+
+    <!-- Put photos in the images folder, or change each src. Edit names in <p class="name">. -->
+    <section id="team">
+      <h2 class="reveal">Meet the team</h2>
+      <div class="team">
+        <article class="person reveal"><div class="ph"><img src="images/emcee-1.jpg" alt="Emcee Name 1" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/emcee-2.jpg" alt="Emcee Name 2" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 2</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-1.jpg" alt="Speaker Name 1" onerror="this.remove()"></div><small>Speaker 1</small><p class="name">Speaker Name 1</p><p class="role">SQL Functions overview, types, single- vs. multiple-row</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-2.jpg" alt="Speaker Name 2" onerror="this.remove()"></div><small>Speaker 2</small><p class="name">Speaker Name 2</p><p class="role">Quick visual summary and string functions overview</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-3.jpg" alt="Speaker Name 3" onerror="this.remove()"></div><small>Speaker 3</small><p class="name">Speaker Name 3</p><p class="role">Case conversion (<code>LOWER</code>, <code>UPPER</code>) and query example</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-4.jpg" alt="Speaker Name 4" onerror="this.remove()"></div><small>Speaker 4</small><p class="name">Speaker Name 4</p><p class="role"><code>LEN</code>, <code>LTRIM</code>, <code>RTRIM</code>, <code>LEFT</code>, <code>RIGHT</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-5.jpg" alt="Speaker Name 5" onerror="this.remove()"></div><small>Speaker 5</small><p class="name">Speaker Name 5</p><p class="role"><code>SUBSTRING</code> and <code>CHARINDEX</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-6.jpg" alt="Speaker Name 6" onerror="this.remove()"></div><small>Speaker 6</small><p class="name">Speaker Name 6</p><p class="role"><code>REPLACE</code> and <code>REPLICATE</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-7.jpg" alt="Speaker Name 7" onerror="this.remove()"></div><small>Speaker 7</small><p class="name">Speaker Name 7</p><p class="role"><code>SPACE</code> and combined string manipulation</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-8.jpg" alt="Speaker Name 8" onerror="this.remove()"></div><small>Speaker 8</small><p class="name">Speaker Name 8</p><p class="role">Intro to <code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>ROUND</code></p></article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating dock: timer + attendance button (slides up after Yes) -->
+  <div class="dock" id="dock">
+    <div><small id="clockNote">Time left</small><b id="clock" role="timer">01:00:00</b></div>
+    <button class="btn go" id="openModal" type="button">Attendance, Q&amp;A &amp; Claim Certificate</button>
   </div>
 
-  <div id="live" hidden>
-    <h1>Let's go.</h1>
-    <p class="clock" id="clock" role="timer" aria-label="Seminar time remaining">01:00:00</p>
-    <p class="sub" id="clockNote">Seminar time remaining</p>
-    <button class="btn yes big" id="openModal" type="button">Attendance, Q&amp;A &amp; Claim Certificate</button>
-  </div>
-</header>
-
-<main class="wrap after">
-  <!-- AGENDA (also covers the learning objectives) -->
-  <section class="rise" style="--i:0">
-    <h2>Agenda</h2>
-    <ol class="agenda">
-      <li><b>Opening and overview</b><span>Single-row vs. multiple-row functions</span></li>
-      <li><b>Case conversion</b><span><code>LOWER</code> <code>UPPER</code></span></li>
-      <li><b>Character manipulation</b><span><code>LEN</code> <code>LTRIM</code> <code>RTRIM</code> <code>LEFT</code> <code>RIGHT</code> <code>SUBSTRING</code> <code>CHARINDEX</code> <code>REPLACE</code> <code>REPLICATE</code> <code>SPACE</code></span></li>
-      <li><b>Mathematical functions</b><span><code>ABS</code> <code>POWER</code> <code>CEILING</code> <code>FLOOR</code> <code>ROUND</code></span></li>
-      <li><b>Q&amp;A, wrap-up and photo op</b><span>Send your questions through the attendance form</span></li>
-    </ol>
-  </section>
-
-  <!-- TEAM: edit the text inside each <p class="name"> -->
-  <section class="rise" style="--i:1">
-    <h2>Meet the speakers</h2>
-    <div class="team">
-      <article><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p>Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
-      <article><small>Emcee / Host</small><p class="name">Emcee Name 2</p><p>Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
-      <article><small>Speaker 1</small><p class="name">Speaker Name 1</p><p>SQL Functions overview, types, single- vs. multiple-row</p></article>
-      <article><small>Speaker 2</small><p class="name">Speaker Name 2</p><p>Quick visual summary and string functions overview</p></article>
-      <article><small>Speaker 3</small><p class="name">Speaker Name 3</p><p>Case conversion (<code>LOWER</code>, <code>UPPER</code>) and query example</p></article>
-      <article><small>Speaker 4</small><p class="name">Speaker Name 4</p><p><code>LEN</code>, <code>LTRIM</code>, <code>RTRIM</code>, <code>LEFT</code>, <code>RIGHT</code></p></article>
-      <article><small>Speaker 5</small><p class="name">Speaker Name 5</p><p><code>SUBSTRING</code> and <code>CHARINDEX</code></p></article>
-      <article><small>Speaker 6</small><p class="name">Speaker Name 6</p><p><code>REPLACE</code> and <code>REPLICATE</code></p></article>
-      <article><small>Speaker 7</small><p class="name">Speaker Name 7</p><p><code>SPACE</code> and combined string manipulation</p></article>
-      <article><small>Speaker 8</small><p class="name">Speaker Name 8</p><p>Intro to <code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>ROUND</code></p></article>
-    </div>
-  </section>
-</main>
-
-<!-- ATTENDANCE + Q&A + CERTIFICATE MODAL -->
-<dialog id="modal" aria-labelledby="mTitle">
-  <button class="close" id="closeModal" type="button" aria-label="Close">&times;</button>
-
-  <section class="view" id="viewForm">
-    <h2 id="mTitle">Attendance &amp; Q&amp;A</h2>
-    <form id="attForm">
-      <label>Full name (printed on your certificate)<input id="fName" required autocomplete="name" placeholder="Juan Dela Cruz"></label>
-      <label>Section / Student ID<input id="fSection" placeholder="BSIT2-Y1-3"></label>
-      <label>Question for the speakers (optional)<textarea id="fQuestion" rows="3" placeholder="Shy? Ask here and the emcees will read it out."></textarea></label>
-      <button class="btn yes" id="sendBtn" type="submit">Submit attendance</button>
-      <p class="note">Please don't use Incognito/Private mode. Your timer and certificate are saved in this browser and would be lost.</p>
-    </form>
-  </section>
-
-  <section class="view" id="viewLocked" hidden>
-    <h2>Attendance recorded</h2>
-    <p>Thank you, <strong id="lockName"></strong>. Your attendance is saved under your name.</p>
-    <p class="note">Your certificate unlocks when the seminar hour ends, in</p>
-    <p class="clock sm" id="lockClock">01:00:00</p>
-  </section>
-
-  <section class="view" id="viewCert" hidden>
-    <h2>Certificate of Participation</h2>
-    <canvas id="certCanvas" aria-label="Certificate of Participation"></canvas>
-    <button class="btn yes" id="downloadCert" type="button">Download Certificate (PNG)</button>
-  </section>
-</dialog>
-
-<script src="script.js"></script>
+  <dialog id="modal" aria-labelledby="mTitle">
+    <button class="close" id="closeModal" type="button" aria-label="Close">&times;</button>
+    <section class="view" id="viewForm">
+      <h2 id="mTitle">Attendance &amp; Q&amp;A</h2>
+      <form id="attForm">
+        <label>Full name (printed on your certificate)<input id="fName" required autocomplete="name" placeholder="Juan Dela Cruz"></label>
+        <label>Section / Student ID<input id="fSection" placeholder="BSIT2-Y1-3"></label>
+        <label>Question for the speakers (optional)<textarea id="fQuestion" rows="3" placeholder="Shy? Ask here and the emcees will read it out."></textarea></label>
+        <button class="btn go" type="submit">Submit attendance</button>
+        <p class="note">Please don't use Incognito/Private mode. Your timer and certificate are saved in this browser and would be lost.</p>
+      </form>
+    </section>
+    <section class="view" id="viewLocked" hidden>
+      <h2>Attendance recorded</h2>
+      <p>Thank you, <strong id="lockName"></strong>. Your attendance is saved under your name.</p>
+      <p class="note">Your certificate unlocks when the seminar hour ends, in</p>
+      <p class="lockclock" id="lockClock">01:00:00</p>
+    </section>
+    <section class="view" id="viewCert" hidden>
+      <h2>Certificate of Participation</h2>
+      <canvas id="certCanvas" aria-label="Certificate of Participation"></canvas>
+      <button class="btn go" id="downloadCert" type="button">Download Certificate (PNG)</button>
+    </section>
+  </dialog>
+  <script src="script.js"></script>
 </body>
 </html>

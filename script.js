@@ -4,7 +4,7 @@
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
 // Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/library/d/1cNhp5QRw28FBYS65hOkI9breXVsG-Tr4Fm4Z6GNJLiK4GliRcFgWsSiv/1";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
