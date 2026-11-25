@@ -1,10 +1,7 @@
-/* IMGT211: SQL Functions Seminar - Yes gate, 1-hour timer, attendance to Google Sheets, certificate */
-
-// The seminar hour starts when the student taps Yes. The certificate unlocks when it ends.
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
-// Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8sP5FhHeAGgrnBGhhWCQS_MEKcepVCiUp-pCTUWhia7VCENjsxmpbjGujpPsraWFM/exec";
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbx8sP5FhHeAGgrnBGhhWCQS_MEKcepVCiUp-pCTUWhia7VCENjsxmpbjGujpPsraWFM/exec";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
@@ -320,4 +317,56 @@ $("#qForm").addEventListener("submit", (e) => {
   }).catch(() => {});
   $("#qText").value = "";
   $("#qStatus").textContent = "Sent anonymously. You can send another.";
+});
+
+/* ---------- Modern effects: scroll progress, card spotlight, photo tilt, magnetic Yes ---------- */
+addEventListener(
+  "scroll",
+  () => {
+    const m = document.documentElement.scrollHeight - innerHeight;
+    document.documentElement.style.setProperty("--p", m > 0 ? scrollY / m : 0);
+  },
+  { passive: true },
+);
+document.querySelectorAll(".agenda li").forEach((li) =>
+  li.addEventListener("pointermove", (e) => {
+    const r = li.getBoundingClientRect();
+    li.style.setProperty("--mx", e.clientX - r.left + "px");
+    li.style.setProperty("--my", e.clientY - r.top + "px");
+  }),
+);
+document.querySelectorAll(".person").forEach((c) => {
+  const ph = c.querySelector(".ph");
+  c.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = ph.getBoundingClientRect();
+    ph.style.setProperty(
+      "--ry",
+      ((e.clientX - r.left) / r.width - 0.5) * 12 + "deg",
+    );
+    ph.style.setProperty(
+      "--rx",
+      (0.5 - (e.clientY - r.top) / r.height) * 10 + "deg",
+    );
+  });
+  c.addEventListener("pointerleave", () => {
+    ph.style.setProperty("--rx", "0deg");
+    ph.style.setProperty("--ry", "0deg");
+  });
+});
+const yesBtn = $("#yesBtn");
+yesBtn.addEventListener("pointermove", (e) => {
+  const r = yesBtn.getBoundingClientRect();
+  yesBtn.style.setProperty(
+    "--tx",
+    (e.clientX - r.left - r.width / 2) * 0.25 + "px",
+  );
+  yesBtn.style.setProperty(
+    "--ty",
+    (e.clientY - r.top - r.height / 2) * 0.35 + "px",
+  );
+});
+yesBtn.addEventListener("pointerleave", () => {
+  yesBtn.style.setProperty("--tx", "0px");
+  yesBtn.style.setProperty("--ty", "0px");
 });
