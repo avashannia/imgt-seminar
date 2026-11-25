@@ -4,7 +4,7 @@
 const UNLOCK_DELAY_MS = 60 * 60 * 1000;
 
 // Paste your deployed Google Apps Script web-app URL here (see google-apps-script.gs).
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuhmCHN59tEJvttePhmPb2Filh8RhwfZ3kLCcgrTh2vdiUm0YzYX67PwrcWZwsmbnc/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8sP5FhHeAGgrnBGhhWCQS_MEKcepVCiUp-pCTUWhia7VCENjsxmpbjGujpPsraWFM/exec";
 
 const K = { start: "imgt211.start", att: "imgt211.att" };
 const $ = (s) => document.querySelector(s);
@@ -165,115 +165,100 @@ $("#attForm").addEventListener("submit", (e) => {
   renderModal();
 });
 
-/* ---------- Certificate (canvas) ---------- */
-function drawCertificate(c, rec) {
-  const W = (c.width = 1600),
-    H = (c.height = 1130),
-    x = c.getContext("2d");
-  const line = (t, y, f, col) => {
-    x.font = f;
-    x.fillStyle = col;
-    x.textAlign = "center";
-    x.fillText(t, W / 2, y);
-  };
-  x.fillStyle = "#F5F2EB";
-  x.fillRect(0, 0, W, H);
-  x.strokeStyle = "#5B21B6";
-  x.lineWidth = 18;
-  x.strokeRect(40, 40, W - 80, H - 80);
-  x.strokeStyle = "#FF7A1A";
-  x.lineWidth = 4;
-  x.strokeRect(75, 75, W - 150, H - 150);
-  x.fillStyle = "#111312";
-  x.fillRect(75, 75, W - 150, 170);
-  line(
-    "IMGT211",
-    150,
-    "600 44px ui-monospace, Menlo, Consolas, monospace",
-    "#FF7A1A",
-  );
-  line(
-    "SQL Functions Seminar",
-    215,
-    "700 54px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#F5F2EB",
-  );
-  line(
-    "Certificate of Participation",
-    380,
-    "700 84px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#5B21B6",
-  );
-  line(
-    "This certifies that",
-    470,
-    "36px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#111312",
-  );
-  let size = 120; // shrink long names to fit
+/* ---------- Certificate: the name is drawn on your template, then exported as a PDF ---------- */
+// Where the name goes, in template pixels (2000 x 1414): center of the name line, its y, and the widest the name may be.
+const NAME_LINE = { x: 1000, y: 826, maxW: 900 };
+let tplPromise;
+const loadTemplate = () =>
+  (tplPromise =
+    tplPromise ||
+    new Promise((ok, fail) => {
+      const i = new Image();
+      i.onload = () => ok(i);
+      i.onerror = fail;
+      i.src = CERT_TEMPLATE_SRC;
+    }));
+async function drawCertificate(c, rec) {
+  const img = await loadTemplate();
+  try {
+    await document.fonts.load('600 100px "Playfair Display"');
+  } catch (e) {}
+  c.width = img.naturalWidth;
+  c.height = img.naturalHeight;
+  const x = c.getContext("2d");
+  x.drawImage(img, 0, 0);
+  let size = 120; // shrink long names to fit the line
   do {
-    x.font = `700 ${size}px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif`;
+    x.font = `600 ${size}px "Playfair Display", Georgia, serif`;
     size -= 4;
-  } while (x.measureText(rec.fullName).width > W - 360 && size > 40);
-  line(rec.fullName, 620, x.font, "#111312");
-  x.strokeStyle = "#5B21B6";
-  x.lineWidth = 3;
-  x.beginPath();
-  x.moveTo(300, 655);
-  x.lineTo(W - 300, 655);
-  x.stroke();
-  line(
-    "has attended and participated in the",
-    730,
-    "36px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#111312",
-  );
-  line(
-    "IMGT211: SQL Functions Seminar",
-    800,
-    "700 52px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#5B21B6",
-  );
-  if (rec.section)
-    line(
-      "Section / ID: " + rec.section,
-      860,
-      "32px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-      "#111312",
-    );
-  line(
-    new Date(rec.submittedAt).toLocaleDateString("en-PH", {
-      dateStyle: "long",
-    }),
-    925,
-    "32px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif",
-    "#111312",
-  );
-  x.strokeStyle = "#111312";
-  x.lineWidth = 2;
-  [
-    [260, 640, "Lead Speaker"],
-    [W - 640, W - 260, "Course Instructor"],
-  ].forEach(([a, b, t]) => {
-    x.beginPath();
-    x.moveTo(a, 965);
-    x.lineTo(b, 965);
-    x.stroke();
-    x.font = "28px 'Inter Tight', -apple-system, Helvetica, Arial, sans-serif";
-    x.fillStyle = "#111312";
-    x.fillText(t, (a + b) / 2, 1003);
-  });
+  } while (x.measureText(rec.fullName).width > NAME_LINE.maxW && size > 40);
+  x.fillStyle = "#3a0a0c";
+  x.textAlign = "center";
+  x.textBaseline = "alphabetic";
+  x.fillText(rec.fullName, NAME_LINE.x, NAME_LINE.y - 40); // sits just above the line
 }
+
+// Minimal one-page PDF (no library): the certificate JPEG scaled to A4 landscape.
+function jpegToPdf(jpg, w, h) {
+  const enc = new TextEncoder(),
+    parts = [],
+    off = [];
+  let len = 0;
+  const add = (v) => {
+    const b = typeof v === "string" ? enc.encode(v) : v;
+    parts.push(b);
+    len += b.length;
+  };
+  const PW = 842,
+    PH = Math.round((842 * h) / w);
+  add("%PDF-1.4\n");
+  off[1] = len;
+  add("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+  off[2] = len;
+  add("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
+  off[3] = len;
+  add(
+    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`,
+  );
+  off[4] = len;
+  add(
+    `4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`,
+  );
+  add(jpg);
+  add("\nendstream\nendobj\n");
+  const content = `q ${PW} 0 0 ${PH} 0 0 cm /Im0 Do Q`;
+  off[5] = len;
+  add(
+    `5 0 obj\n<< /Length ${content.length} >>\nstream\n${content}\nendstream\nendobj\n`,
+  );
+  const xref = len;
+  let t = "xref\n0 6\n0000000000 65535 f \n";
+  for (let i = 1; i <= 5; i++)
+    t += String(off[i]).padStart(10, "0") + " 00000 n \n";
+  add(t + `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  return new Blob(parts, { type: "application/pdf" });
+}
+
 $("#downloadCert").addEventListener("click", () => {
-  const rec = store.get(K.att);
-  $("#certCanvas").toBlob((blob) => {
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download =
-      "IMGT211-Certificate-" + rec.fullName.replace(/\s+/g, "_") + ".png";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  });
+  const rec = store.get(K.att),
+    c = $("#certCanvas");
+  c.toBlob(
+    async (jpg) => {
+      const pdf = jpegToPdf(
+        new Uint8Array(await jpg.arrayBuffer()),
+        c.width,
+        c.height,
+      );
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(pdf);
+      a.download =
+        "IMGT211-Certificate-" + rec.fullName.replace(/\s+/g, "_") + ".pdf";
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    },
+    "image/jpeg",
+    0.95,
+  );
 });
 
 /* ---------- Scroll + pointer effects ---------- */

@@ -3,30 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111312">
+<meta name="theme-color" content="#3a090c">
 <title>IMGT211: SQL Functions Seminar</title>
-<link rel="icon" type="image/png" href="./logo_icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><div class="ring"><i></i></div></div>
+
   <!-- HERO: only Yes works. No runs away. Yes starts the 1-hour timer. -->
   <header class="hero wrap">
-    <p class="chips"><span>IMGT211</span><span>For BSIT2-Y1-3</span></p>
-    <div id="gate">
-      <h1>Ready for<br>SQL Functions?</h1>
-      <p class="sub">IMGT211 seminar. Say yes to begin.</p>
-      <div class="choices">
-        <button class="btn go" id="yesBtn" type="button">Yes</button>
-        <button class="btn no" id="noBtn" type="button" aria-disabled="true">No</button>
+    <div class="panel">
+      <div class="pbg"><img src="images/hero-building.jpg" alt="" onerror="this.remove()"></div>
+      <p class="chips"><span>IMGT211</span><span>For BSIT2-Y1-3</span><span>Dash 3</span></p>
+      <div id="gate">
+        <h1><span class="hl light">Ready for</span><br><span class="hl">SQL Functions?</span></h1>
+        <p class="sub">IMGT211 seminar. Say yes to begin.</p>
+        <div class="choices">
+          <button class="btn go" id="yesBtn" type="button">Yes</button>
+          <button class="btn no" id="noBtn" type="button" aria-disabled="true">No</button>
+        </div>
       </div>
-    </div>
-    <div id="in" hidden>
-      <h1>You're in.</h1>
-      <p class="sub">Scroll for the agenda and your speakers.</p>
+      <div id="in" hidden>
+        <h1><span class="hl">You're in.</span></h1>
+        <p class="sub">Scroll for the agenda and your speakers.</p>
+      </div>
+      <div class="pills"><span>Types of SQL Functions</span><span>Case Conversion Functions</span><span>Character Manipulation</span><span>Intro to Math Functions</span></div>
+      <p class="info">7:30 AM &ndash; 8:30 AM &nbsp;|&nbsp; Location: SPCB, 2nd Floor (Room 202)</p>
     </div>
   </header>
 
@@ -45,7 +50,7 @@
     <section id="team">
       <h2 class="reveal">Meet the team</h2>
       <div class="team">
-        <article class="person reveal"><div class="ph"><img src="./images.png" alt="Emcee Name 1" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/emcee-1.png" alt="Emcee Name 1" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
         <article class="person reveal"><div class="ph"><img src="images/emcee-2.png" alt="Emcee Name 2" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 2</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
         <article class="person reveal"><div class="ph"><img src="images/speaker-1.png" alt="Speaker Name 1" onerror="this.remove()"></div><small>Speaker 1</small><p class="name">Speaker Name 1</p><p class="role">SQL Functions overview, types, single- vs. multiple-row</p></article>
         <article class="person reveal"><div class="ph"><img src="images/speaker-2.png" alt="Speaker Name 2" onerror="this.remove()"></div><small>Speaker 2</small><p class="name">Speaker Name 2</p><p class="role">Quick visual summary and string functions overview</p></article>
@@ -86,7 +91,7 @@
     <section class="view" id="viewCert" hidden>
       <h2>Certificate of Participation</h2>
       <canvas id="certCanvas" aria-label="Certificate of Participation"></canvas>
-      <button class="btn go" id="downloadCert" type="button">Download Certificate (PNG)</button>
+      <button class="btn go" id="downloadCert" type="button">Download Certificate (PDF)</button>
     </section>
     <!-- Anonymous questions: shown after attendance is recorded. Sends text only (no name, no ID). -->
     <section id="qBox" hidden>
@@ -99,6 +104,7 @@
       </form>
     </section>
   </dialog>
+  <script src="certificate-template.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
