@@ -11,15 +11,14 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="progress" aria-hidden="true"></div>
   <div class="bg" aria-hidden="true"><i class="b1"></i><i class="b2"></i><div class="ring"><i></i></div></div>
-
-  <!-- HERO: only Yes works. No runs away. Yes starts the 1-hour timer. -->
   <header class="hero wrap">
     <div class="panel">
       <div class="pbg"><img src="images/hero-building.jpg" alt="" onerror="this.remove()"></div>
       <p class="chips"><span>IMGT211</span><span>For BSIT2-Y1-3</span><span>Dash 3</span></p>
       <div id="gate">
-        <h1><span class="hl light">Ready for</span><br><span class="hl">SQL Functions?</span></h1>
+        <h1><span class="w" style="--i:0">Ready</span> <span class="w" style="--i:1">for</span><br><span class="w grad" style="--i:2">SQL</span> <span class="w grad" style="--i:3">Functions?</span></h1>
         <p class="sub">IMGT211 seminar. Say yes to begin.</p>
         <div class="choices">
           <button class="btn go" id="yesBtn" type="button">Yes</button>
@@ -27,15 +26,14 @@
         </div>
       </div>
       <div id="in" hidden>
-        <h1><span class="hl">You're in.</span></h1>
+        <h1><span class="w grad" style="--i:0">You're</span> <span class="w grad" style="--i:1">in.</span></h1>
         <p class="sub">Scroll for the agenda and your speakers.</p>
       </div>
-      <div class="pills"><span>Types of SQL Functions</span><span>Case Conversion Functions</span><span>Character Manipulation</span><span>Intro to Math Functions</span></div>
-      <p class="info">7:30 AM &ndash; 8:30 AM &nbsp;|&nbsp; Location: SPCB, 2nd Floor (Room 202)</p>
     </div>
   </header>
 
   <main class="wrap after">
+    <div class="marquee" aria-hidden="true"><div><span>LOWER()</span><span>UPPER()</span><span>LEN()</span><span>LTRIM()</span><span>RTRIM()</span><span>LEFT()</span><span>RIGHT()</span><span>SUBSTRING()</span><span>CHARINDEX()</span><span>REPLACE()</span><span>REPLICATE()</span><span>SPACE()</span><span>ABS()</span><span>POWER()</span><span>CEILING()</span><span>FLOOR()</span><span>ROUND()</span><span>LOWER()</span><span>UPPER()</span><span>LEN()</span><span>LTRIM()</span><span>RTRIM()</span><span>LEFT()</span><span>RIGHT()</span><span>SUBSTRING()</span><span>CHARINDEX()</span><span>REPLACE()</span><span>REPLICATE()</span><span>SPACE()</span><span>ABS()</span><span>POWER()</span><span>CEILING()</span><span>FLOOR()</span><span>ROUND()</span></div></div>
     <section id="agenda">
       <h2 class="reveal">Agenda</h2>
       <ol class="agenda">
@@ -50,16 +48,16 @@
     <section id="team">
       <h2 class="reveal">Meet the team</h2>
       <div class="team">
-        <article class="person reveal"><div class="ph"><img src="images/emcee-1.png" alt="Emcee Name 1" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/emcee-2.png" alt="Emcee Name 2" onerror="this.remove()"></div><small>Emcee / Host</small><p class="name">Emcee Name 2</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-1.png" alt="Speaker Name 1" onerror="this.remove()"></div><small>Speaker 1</small><p class="name">Speaker Name 1</p><p class="role">SQL Functions overview, types, single- vs. multiple-row</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-2.png" alt="Speaker Name 2" onerror="this.remove()"></div><small>Speaker 2</small><p class="name">Speaker Name 2</p><p class="role">Quick visual summary and string functions overview</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-3.png" alt="Speaker Name 3" onerror="this.remove()"></div><small>Speaker 3</small><p class="name">Speaker Name 3</p><p class="role">Case conversion (<code>LOWER</code>, <code>UPPER</code>) and query example</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-4.png" alt="Speaker Name 4" onerror="this.remove()"></div><small>Speaker 4</small><p class="name">Speaker Name 4</p><p class="role"><code>LEN</code>, <code>LTRIM</code>, <code>RTRIM</code>, <code>LEFT</code>, <code>RIGHT</code></p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-5.png" alt="Speaker Name 5" onerror="this.remove()"></div><small>Speaker 5</small><p class="name">Speaker Name 5</p><p class="role"><code>SUBSTRING</code> and <code>CHARINDEX</code></p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-6.png" alt="Speaker Name 6" onerror="this.remove()"></div><small>Speaker 6</small><p class="name">Speaker Name 6</p><p class="role"><code>REPLACE</code> and <code>REPLICATE</code></p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-7.png" alt="Speaker Name 7" onerror="this.remove()"></div><small>Speaker 7</small><p class="name">Speaker Name 7</p><p class="role"><code>SPACE</code> and combined string manipulation</p></article>
-        <article class="person reveal"><div class="ph"><img src="images/speaker-8.png" alt="Speaker Name 8" onerror="this.remove()"></div><small>Speaker 8</small><p class="name">Speaker Name 8</p><p class="role">Intro to <code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>ROUND</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/emcee-1.png" alt="Emcee Name 1" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Emcee / Host</small><p class="name">Emcee Name 1</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/emcee-2.png" alt="Emcee Name 2" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Emcee / Host</small><p class="name">Emcee Name 2</p><p class="role">Opening, Mini Practice, Mid-Seminar Checkpoint, Q&amp;A, Wrap-Up &amp; Photo Op</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-1.png" alt="Speaker Name 1" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 1</small><p class="name">Speaker Name 1</p><p class="role">SQL Functions overview, types, single- vs. multiple-row</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-2.png" alt="Speaker Name 2" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 2</small><p class="name">Speaker Name 2</p><p class="role">Quick visual summary and string functions overview</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-3.png" alt="Speaker Name 3" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 3</small><p class="name">Speaker Name 3</p><p class="role">Case conversion (<code>LOWER</code>, <code>UPPER</code>) and query example</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-4.png" alt="Speaker Name 4" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 4</small><p class="name">Speaker Name 4</p><p class="role"><code>LEN</code>, <code>LTRIM</code>, <code>RTRIM</code>, <code>LEFT</code>, <code>RIGHT</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-5.png" alt="Speaker Name 5" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 5</small><p class="name">Speaker Name 5</p><p class="role"><code>SUBSTRING</code> and <code>CHARINDEX</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-6.png" alt="Speaker Name 6" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 6</small><p class="name">Speaker Name 6</p><p class="role"><code>REPLACE</code> and <code>REPLICATE</code></p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-7.png" alt="Speaker Name 7" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 7</small><p class="name">Speaker Name 7</p><p class="role"><code>SPACE</code> and combined string manipulation</p></article>
+        <article class="person reveal"><div class="ph"><img src="images/speaker-8.png" alt="Speaker Name 8" onerror="this.onerror=null;this.src='images/images.png';this.classList.add('ghost')"></div><small>Speaker 8</small><p class="name">Speaker Name 8</p><p class="role">Intro to <code>ABS</code>, <code>POWER</code>, <code>CEILING</code>, <code>FLOOR</code>, <code>ROUND</code></p></article>
       </div>
     </section>
   </main>
